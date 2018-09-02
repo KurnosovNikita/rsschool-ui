@@ -1,29 +1,28 @@
 export function setCardStyle(isEndAssignment: boolean, score: number, status: string) {
-    const card = {
+    let card = {
         className: '',
         cardHeader: {
             title: '',
             className: '',
         },
     };
-    if (isEndAssignment) {
-        card.className = 'border-danger';
-        card.cardHeader.title = 'The deadline has passed!';
-        card.cardHeader.className = 'text-white bg-danger';
-    } else if (status === 'Assigned') {
-        card.className = 'bg-secondary';
-        card.cardHeader.title = 'Not submitted yet!';
-        card.cardHeader.className = '';
-    } else if (status === 'Checked') {
-        if (score === 100) {
-            card.className = 'border-success';
-            card.cardHeader.title = 'Done!';
-            card.cardHeader.className = 'text-white bg-success';
-        } else {
-            card.className = 'border-warning';
-            card.cardHeader.title = 'Done!';
-            card.cardHeader.className = 'text-white bg-warning';
-        }
-    }
+    card = isEndAssignment
+        ? setStyle('border-danger', 'The deadline has passed!', 'text-white bg-danger')
+        : status === 'Assigned'
+            ? setStyle('bg-secondary', 'Not submitted yet!', '')
+            : status === 'Checked' && score === 100
+                ? setStyle('border-success', 'Done!', 'text-white bg-success')
+                : setStyle('border-warning', 'Done!', 'text-white bg-warning');
+
     return card;
+}
+
+function setStyle(...styles: string[]) {
+    return {
+        className: styles[0],
+        cardHeader: {
+            title: styles[1],
+            className: styles[2],
+        },
+    };
 }

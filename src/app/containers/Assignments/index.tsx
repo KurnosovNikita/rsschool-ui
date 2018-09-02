@@ -10,31 +10,6 @@ import { RootState } from 'core/reducers';
 
 const cn = classNames(require('./index.scss'));
 
-const mapStateToProps = (state: RootState, props: any): AssignmentsContainerProps => {
-    if (state.assignments == null || state.user == null) {
-        return props;
-    }
-    return {
-        ...props,
-        courseId: props.match.params.id,
-        isAdmin: state.user.isAdmin,
-        assignments: state.assignments.assignments,
-        isLoading: state.assignments.isLoading,
-    };
-};
-
-const mapDispatchToProps = (dispatch: any, props: any): AssignmentsContainerProps => {
-    return {
-        ...props,
-        onLoad: id => {
-            dispatch(fetchAssignments(id));
-        },
-        updateAssignment: (assignment: INormalizeAssignment) => {
-            dispatch(updateAssignment(assignment));
-        },
-    };
-};
-
 type AssignmentsContainerProps = {
     onLoad: (id: string) => void;
     courseId: string;
@@ -94,6 +69,31 @@ class AssignmentsContainer extends React.Component<AssignmentsContainerProps> {
         );
     }
 }
+
+const mapStateToProps = (state: RootState, props: any): AssignmentsContainerProps => {
+    if (state.assignments == null || state.user == null) {
+        return props;
+    }
+    return {
+        ...props,
+        courseId: props.match.params.id,
+        isAdmin: state.user.isAdmin,
+        assignments: state.assignments.assignments,
+        isLoading: state.assignments.isLoading,
+    };
+};
+
+const mapDispatchToProps = (dispatch: any, props: any): AssignmentsContainerProps => {
+    return {
+        ...props,
+        onLoad: id => {
+            dispatch(fetchAssignments(id));
+        },
+        updateAssignment: (assignment: INormalizeAssignment) => {
+            dispatch(updateAssignment(assignment));
+        },
+    };
+};
 
 export default connect(
     mapStateToProps,
